@@ -42,20 +42,19 @@ def scrape_news(html_content):
     selector = parsel.Selector(html_content)
 
     url = selector.css("link[rel='canonical']::attr(href)").get()
-    title = selector.css("h1.entry-title::text").get()
+    title = selector.css("h1.entry-title::text").get().strip()
     timestamp = selector.css("li.meta-date::text").get()
     writer = selector.css(".author a::text").get()
     comments = selector.css(".comment-list li").getall()
-    print(comments)
+    # print(comments)
     for li in comments:
-        comments_count += 1
-    print(comments_count)
+        comments_count = 1
+    # print(comments_count)
     summary_list = selector.css(
         ".entry-content > p:first-of-type *::text"
     ).getall()
-    for text in summary_list:
-        summary = text
-    print("SUMMARY  " + summary)
+    summary = "".join(summary_list).strip()
+    # print("SUMMARY  " + summary)
     tags = selector.css("section.post-tags a::text").getall()
     category = selector.css("div.meta-category span.label::text").get()
 
